@@ -4,7 +4,7 @@ del *.exe
 
 windres Resource.rc -o Resource.o
 
-g++ -mwindows -m64 -static -Wall -Wextra ListView.cpp ^
+g++ -mwindows -m64 -static -Wall -Wextra File.cpp ^
  ^
  ..\Classes\ArgumentListClass.cpp ^
  ..\Classes\DropClass.cpp ^
@@ -15,9 +15,9 @@ g++ -mwindows -m64 -static -Wall -Wextra ListView.cpp ^
  ..\Classes\WindowClass.cpp ^
  ..\Classes\WindowClassClass.cpp ^
  ^
+ ..\Classes\FileListViewWindowClass.cpp ^
  ..\Classes\ListViewWindowClass.cpp ^
  ..\Classes\SplashWindowClass.cpp ^
  ..\Classes\StatusBarWindowClass.cpp ^
- ..\Classes\TemplateListViewWindowClass.cpp ^
  ^
- Resource.o -o ListView.exe
+ Resource.o -o File.exe

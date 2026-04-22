@@ -1,4 +1,4 @@
-// ListView.h
+// File.h
 
 #pragma once
 
@@ -16,17 +16,17 @@
 #include "..\Classes\WindowClass.h"
 #include "..\Classes\WindowClassClass.h"
 
-#include "..\Classes\TemplateListViewWindowClass.h"
+#include "..\Classes\FileListViewWindowClass.h"
 #include "..\Classes\SplashWindowClass.h"
 #include "..\Classes\StatusBarWindowClass.h"
 
 #include "Resource.h"
 
-#define MAIN_WINDOW_CLASS_NAME													"Main ListView Window Class"
+#define MAIN_WINDOW_CLASS_NAME													"Main File Window Class"
 
-#define MAIN_WINDOW_TEXT														"ListView"
+#define MAIN_WINDOW_TEXT														"File"
 
-#define ABOUT_MESSAGE_TEXT														"ListView\r\n"						\
+#define ABOUT_MESSAGE_TEXT														"File\r\n"							\
 																				"\r\n"								\
 																				"Written by Jim Smith\r\n"			\
 																				"\r\n"								\

@@ -1,14 +1,14 @@
-// ListView.cpp
+// File.cpp
 
-#include "ListView.h"
+#include "File.h"
 
 #include <windows.h>
 
 // Global variables
-static TemplateListViewWindow g_listViewWindow;
+static FileListViewWindow g_listViewWindow;
 static StatusBarWindow g_statusBarWindow;
 
-int CALLBACK TemplateListViewWindowCompare( LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort )
+int CALLBACK FileListViewWindowCompare( LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort )
 {
 	int nResult = 0;
 
@@ -39,33 +39,33 @@ int CALLBACK TemplateListViewWindowCompare( LPARAM lParam1, LPARAM lParam2, LPAR
 
 	return nResult;
 
-} // End of function TemplateListViewWindowCompare
+} // End of function FileListViewWindowCompare
 
-BOOL TemplateListViewWindowSelectionChangeFunction( LPCTSTR lpszSelectedItemText )
+BOOL FileListViewWindowSelectionChangeFunction( LPCTSTR lpszSelectedItemText )
 {
 	// Show selected item text on status bar window
 	return g_statusBarWindow.SetText( lpszSelectedItemText );
 
-} // End of function TemplateListViewWindowSelectionChangeFunction
+} // End of function FileListViewWindowSelectionChangeFunction
 
-BOOL TemplateListViewWindowDoubleClickFunction( LPCTSTR lpszSelectedItemText )
+BOOL FileListViewWindowDoubleClickFunction( LPCTSTR lpszSelectedItemText )
 {
 	// Display selected item text
 	MessageBox( NULL, lpszSelectedItemText, INFORMATION_MESSAGE_CAPTION, ( MB_OK | MB_ICONINFORMATION ) );
 
 	return TRUE;
 
-} // End of function TemplateListViewWindowDoubleClickFunction
+} // End of function FileListViewWindowDoubleClickFunction
 
 BOOL ArgumentFunction( LPCTSTR lpszArgument )
 {
 	int nWhichItem;
 
-	// Add argument to template list view window
+	// Add argument to file list view window
 	nWhichItem = g_listViewWindow.AddItem( lpszArgument );
 
 	// Set column 2 text
-	g_listViewWindow.SetItemText( nWhichItem, TEMPLATE_LIST_VIEW_WINDOW_CLASS_COLUMN_2_ID, "ArgumentFunction" );
+	g_listViewWindow.SetItemText( nWhichItem, FILE_LIST_VIEW_WINDOW_CLASS_MODIFIED_COLUMN_ID, "ArgumentFunction" );
 
 	return TRUE;
 
@@ -73,7 +73,7 @@ BOOL ArgumentFunction( LPCTSTR lpszArgument )
 
 BOOL DropFunction( LPCTSTR lpszFilePath )
 {
-	// Add file to template list view window
+	// Add file to file list view window
 	g_listViewWindow.AddItem( lpszFilePath );
 
 	return TRUE;
@@ -124,12 +124,12 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 			// Get font
 			font.Get( DEFAULT_GUI_FONT );
 
-			// Create template list view window
+			// Create file list view window
 			if( g_listViewWindow.Create( hWndMain, hInstance ) )
 			{
-				// Successfully created template list view window
+				// Successfully created file list view window
 
-				// Set template list view window font
+				// Set file list view window font
 				g_listViewWindow.SetFont( font );
 
 				// Create status bar window
@@ -142,7 +142,7 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 
 				} // End of successfully created status bar window
 
-			} // End of successfully created template list view window
+			} // End of successfully created file list view window
 
 			// Break out of switch
 			break;
@@ -152,7 +152,7 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 		{
 			// An activate message
 
-			// Focus on template list view window
+			// Focus on file list view window
 			g_listViewWindow.SetFocus();
 
 			// Break out of switch
@@ -166,7 +166,7 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 			int nClientHeight;
 			RECT rcStatusBar;
 			int nStatusBarWindowHeight;
-			int nTemplateListViewWindowHeight;
+			int nFileListViewWindowHeight;
 
 			// Store client width and height
 			nClientWidth	= ( int )LOWORD( lParam );
@@ -180,10 +180,10 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 
 			// Calculate window sizes
 			nStatusBarWindowHeight	= ( rcStatusBar.bottom - rcStatusBar.top );
-			nTemplateListViewWindowHeight	= ( nClientHeight - nStatusBarWindowHeight );
+			nFileListViewWindowHeight	= ( nClientHeight - nStatusBarWindowHeight );
 
 			// Move control windows
-			g_listViewWindow.Move( 0, 0, nClientWidth, nTemplateListViewWindowHeight );
+			g_listViewWindow.Move( 0, 0, nClientWidth, nFileListViewWindowHeight );
 
 			// Break out of switch
 			break;
@@ -249,23 +249,23 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 				{
 					// Default command
 
-					// See if command message is from template list view window
+					// See if command message is from file list view window
 					if( ( HWND )lParam == g_listViewWindow )
 					{
-						// Command message is from template list view window
+						// Command message is from file list view window
 
-						// Handle command message from template list view window
+						// Handle command message from file list view window
 						lr = g_listViewWindow.HandleCommandMessage( hWndMain, wParam, lParam );
 
-					} // End of command message is from template list view window
+					} // End of command message is from file list view window
 					else
 					{
-						// Command message is not from template list view window
+						// Command message is not from file list view window
 
 						// Call default procedure
 						lr = DefWindowProc( hWndMain, uMessage, wParam, lParam );
 
-					} // End of command message is not from template list view window
+					} // End of command message is not from file list view window
 
 					// Break out of switch
 					break;
@@ -322,23 +322,23 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 			// Get notify message handler
 			lpNmHdr = ( LPNMHDR )lParam;
 
-			// See if notify message is from template list view window
+			// See if notify message is from file list view window
 			if( lpNmHdr->hwndFrom == g_listViewWindow )
 			{
-				// Notify message is from template list view window
+				// Notify message is from file list view window
 
-				// Handle notify message from template list view window
-				lr = g_listViewWindow.HandleNotifyMessage( hWndMain, wParam, lParam, &TemplateListViewWindowSelectionChangeFunction, &TemplateListViewWindowDoubleClickFunction, &TemplateListViewWindowCompare );
+				// Handle notify message from file list view window
+				lr = g_listViewWindow.HandleNotifyMessage( hWndMain, wParam, lParam, &FileListViewWindowSelectionChangeFunction, &FileListViewWindowDoubleClickFunction, &FileListViewWindowCompare );
 
-			} // End of notify message is from template list view window
+			} // End of notify message is from file list view window
 			else
 			{
-				// Notify message is not from template list view window
+				// Notify message is not from file list view window
 
 				// Call default procedure
 				lr = DefWindowProc( hWndMain, uMessage, wParam, lParam );
 
-			} // End of notify message is not from template list view window
+			} // End of notify message is not from file list view window
 
 			// Break out of switch
 			break;
@@ -447,11 +447,11 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPTSTR, int nCmdShow )
 
 			} // End of successfully got argument list
 
-			// Populate template list view window
+			// Populate file list view window
 			nItemCount = g_listViewWindow.Populate();
 
 			// Format status message
-			wsprintf( lpszStatusMessage, TEMPLATE_LIST_VIEW_WINDOW_CLASS_POPULATE_STATUS_MESSAGE_FORMAT_STRING, nItemCount );
+			wsprintf( lpszStatusMessage, FILE_LIST_VIEW_WINDOW_CLASS_POPULATE_STATUS_MESSAGE_FORMAT_STRING, nItemCount );
 
 			// Show status message on status bar window
 			g_statusBarWindow.SetText( lpszStatusMessage );
