@@ -33,6 +33,16 @@ int CALLBACK FileListViewWindowCompare( LPARAM lParam1, LPARAM lParam2, LPARAM l
 
 	} // End of successfully got first item text
 
+	// See if this is the modified column
+	if( lParamSort == FILE_LIST_VIEW_WINDOW_CLASS_MODIFIED_COLUMN_ID )
+	{
+		// This is the modified column
+
+		// Invert result (so that most recent items come first)
+		nResult = ( 0 - nResult );
+
+	} // End of this is the modified column
+
 	// Free string memory
 	delete [] lpszItem1;
 	delete [] lpszItem2;
