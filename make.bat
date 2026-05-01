@@ -10,6 +10,7 @@ g++ -mwindows -m64 -static -Wall -Wextra File.cpp ^
  ..\Classes\DropClass.cpp ^
  ..\Classes\FileFindClass.cpp ^
  ..\Classes\FontClass.cpp ^
+ ..\Classes\ImageListClass.cpp ^
  ..\Classes\MenuClass.cpp ^
  ..\Classes\MessageClass.cpp ^
  ..\Classes\MinMaxInfoClass.cpp ^

@@ -126,21 +126,25 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 		{
 			// A create message
 			HINSTANCE hInstance;
-			Font font;
 
 			// Get instance
 			hInstance = ( ( LPCREATESTRUCT )lParam )->hInstance;
-
-			// Get font
-			font.Get( DEFAULT_GUI_FONT );
 
 			// Create file list view window
 			if( g_listViewWindow.Create( hWndMain, hInstance ) )
 			{
 				// Successfully created file list view window
+				Font font;
+				ImageList imageList;
 
-				// Set file list view window font
-				g_listViewWindow.SetFont( font );
+				// Get font
+				font.Get( DEFAULT_GUI_FONT );
+
+				// Get system image list
+				imageList.GetSystem();
+
+				// Set file list view window image list
+				g_listViewWindow.SetImageList( imageList );
 
 				// Create status bar window
 				if( g_statusBarWindow.Create( hWndMain, hInstance, STATUS_BAR_WINDOW_CLASS_DEFAULT_TEXT ) )

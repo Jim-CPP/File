@@ -10,6 +10,7 @@
 #include "..\Classes\ArgumentListClass.h"
 #include "..\Classes\DropClass.h"
 #include "..\Classes\FontClass.h"
+#include "..\Classes\ImageListClass.h"
 #include "..\Classes\MenuClass.h"
 #include "..\Classes\MessageClass.h"
 #include "..\Classes\MinMaxInfoClass.h"
