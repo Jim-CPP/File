@@ -67,25 +67,14 @@ BOOL FileListViewWindowDoubleClickFunction( LPCTSTR lpszSelectedItemText )
 
 } // End of function FileListViewWindowDoubleClickFunction
 
-BOOL ArgumentFunction( LPCTSTR lpszArgument )
+BOOL ArgumentFunction( LPCTSTR )
 {
-	int nWhichItem;
-
-	// Add argument to file list view window
-	nWhichItem = g_listViewWindow.AddItem( lpszArgument );
-
-	// Set column 2 text
-	g_listViewWindow.SetItemText( nWhichItem, FILE_LIST_VIEW_WINDOW_CLASS_MODIFIED_COLUMN_ID, "ArgumentFunction" );
-
 	return TRUE;
 
 } // End of function ArgumentFunction
 
-BOOL DropFunction( LPCTSTR lpszFilePath )
+BOOL DropFunction( LPCTSTR )
 {
-	// Add file to file list view window
-	g_listViewWindow.AddItem( lpszFilePath );
-
 	return TRUE;
 
 } // End of function DropFunction
