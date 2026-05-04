@@ -8,6 +8,53 @@
 static FileListViewWindow g_listViewWindow;
 static StatusBarWindow g_statusBarWindow;
 
+int FileListViewWindowPopulate( LPCTSTR lpszParentFolderPath )
+{
+	int nResult = 0;
+
+	// Allocate string memory
+	LPTSTR lpszStatusMessage = new char[ STRING_LENGTH + sizeof( char ) ];
+
+	// Populate file list view window
+	nResult = g_listViewWindow.Populate( lpszParentFolderPath );
+
+	// Format status message
+	wsprintf( lpszStatusMessage, FILE_LIST_VIEW_WINDOW_CLASS_POPULATE_STATUS_MESSAGE_FORMAT_STRING, lpszParentFolderPath, nResult );
+
+	// Show status message on status bar window
+	g_statusBarWindow.SetText( lpszStatusMessage );
+
+	// Free string memory
+	delete [] lpszStatusMessage;
+
+	return nResult;
+
+} // End of function FileListViewWindowPopulate
+
+int FileListViewWindowPopulate()
+{
+	int nResult = 0;
+
+	// Allocate string memory
+	LPTSTR lpszParentFolderPath = new char[ STRING_LENGTH + sizeof( char ) ];
+
+	// Get current folder path
+	if( GetCurrentDirectory( STRING_LENGTH, lpszParentFolderPath ) )
+	{
+		// Successfully got current folder path
+
+		// Populate to current folder
+		nResult = FileListViewWindowPopulate( lpszParentFolderPath );
+
+	} // End of successfully got current folder path
+
+	// Free string memory
+	delete [] lpszParentFolderPath;
+
+	return nResult;
+
+} // End of function FileListViewWindowPopulate
+
 int CALLBACK FileListViewWindowCompare( LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort )
 {
 	int nResult = 0;
@@ -57,15 +104,6 @@ BOOL FileListViewWindowSelectionChangeFunction( LPCTSTR lpszSelectedItemText )
 	return g_statusBarWindow.SetText( lpszSelectedItemText );
 
 } // End of function FileListViewWindowSelectionChangeFunction
-
-BOOL FileListViewWindowDoubleClickFunction( LPCTSTR lpszSelectedItemText )
-{
-	// Display selected item text
-	MessageBox( NULL, lpszSelectedItemText, INFORMATION_MESSAGE_CAPTION, ( MB_OK | MB_ICONINFORMATION ) );
-
-	return TRUE;
-
-} // End of function FileListViewWindowDoubleClickFunction
 
 BOOL ArgumentFunction( LPCTSTR )
 {
@@ -331,7 +369,7 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 				// Notify message is from file list view window
 
 				// Handle notify message from file list view window
-				lr = g_listViewWindow.HandleNotifyMessage( hWndMain, wParam, lParam, &FileListViewWindowSelectionChangeFunction, &FileListViewWindowDoubleClickFunction, &FileListViewWindowCompare );
+				lr = g_listViewWindow.HandleNotifyMessage( hWndMain, wParam, lParam, &FileListViewWindowSelectionChangeFunction, &FileListViewWindowCompare );
 
 			} // End of notify message is from file list view window
 			else
@@ -426,10 +464,6 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPTSTR, int nCmdShow )
 			// Successfully created main window
 			Menu systemMenu;
 			ArgumentList argumentList;
-			int nItemCount;
-
-			// Allocate string memory
-			LPTSTR lpszStatusMessage = new char[ STRING_LENGTH + sizeof( char ) ];
 
 			// Get system menu
 			systemMenu = mainWindow.GetSystemMenu( FALSE );
@@ -451,13 +485,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPTSTR, int nCmdShow )
 			} // End of successfully got argument list
 
 			// Populate file list view window
-			nItemCount = g_listViewWindow.Populate();
-
-			// Format status message
-			wsprintf( lpszStatusMessage, FILE_LIST_VIEW_WINDOW_CLASS_POPULATE_STATUS_MESSAGE_FORMAT_STRING, nItemCount );
-
-			// Show status message on status bar window
-			g_statusBarWindow.SetText( lpszStatusMessage );
+			FileListViewWindowPopulate();
 
 			// Show main window
 			mainWindow.Show( nCmdShow );
@@ -475,9 +503,6 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPTSTR, int nCmdShow )
 				message.Dispatch();
 
 			}; // End of main message loop
-
-			// Free string memory
-			delete [] lpszStatusMessage;
 
 		} // End of successfully created main window
 		else
